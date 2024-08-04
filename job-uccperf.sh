@@ -5,7 +5,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=00:05:00
 #SBATCH --output=ucc_perftest_%j.log
-#SBATCH --chdir=/global/home/users/rdmaworkshop08/wdc/ucc-perf
+#SBATCH --chdir=/global/home/users/rdmaworkshop08/wdc
 
 # Load necessary modules
 module load hpcx
@@ -19,5 +19,5 @@ NODE_COUNT=${#NODELIST[@]}
 
 # Run the UCC All-Reduce test
 for MSG_SIZE in $MSG_SIZES; do
-    srun --nodes=$NODE_COUNT --ntasks=$NODE_COUNT ../opt/bin/ucc_perftest -t allreduce -m $MSG_SIZE -c 0
+    srun --nodes=$NODE_COUNT --ntasks=$NODE_COUNT opt/bin/ucc_perftest -t allreduce -m $MSG_SIZE -c 0
 done
