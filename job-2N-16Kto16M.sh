@@ -12,11 +12,15 @@ module load hpcx
 
 # Set the collective type and message size
 COLLECTIVE="allreduce"
-MSG_SIZES="16384 65536 262144 1048576 4194304 16777216"  # 16K bytes
+MSG_SIZES="16384 65536 262144 1048576 4194304 16777216"  # 16K - 16 Mbytes
 NUM_ITERATIONS=10
 WARMUP_ITERATIONS=2
 
 # Run the UCC All-Reduce test using mpirun
 for MSG_SIZE in $MSG_SIZES; do
+    echo "Running test for message size: $MSG_SIZE"
     mpirun --bind-to core --map-by slot -np 2 opt/bin/ucc_perftest -c $COLLECTIVE -b $MSG_SIZE -e $MSG_SIZE -n $NUM_ITERATIONS -w $WARMUP_ITERATIONS
+    if [ $? -ne 0 ]; then
+        echo "Test for message size $MSG_SIZE failed, skipping."
+    fi
 done
