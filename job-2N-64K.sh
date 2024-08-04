@@ -10,16 +10,22 @@
 # Load necessary modules
 module load gcc hpcx
 
-# Use our version of ucc
+# Use our version of UCC
 export LD_LIBRARY_PATH=/global/home/users/rdmaworkshop08/wdc/opt/lib/ucc:$LD_LIBRARY_PATH
 export OMPI_MCA_coll_tuned_use_dynamic_rules=1
-# UCC_TL_UCP_ALLREDUCE_ALG_SLIDING_WINDOW
-export OMPI_MCA_coll_tuned_allreduce_algorithm=2 
+
 # Set the collective type and message size
 COLLECTIVE="allreduce"
 MSG_SIZE=16384  # 16K bytes
 NUM_ITERATIONS=10
 WARMUP_ITERATIONS=2
 
-# Run the UCC All-Reduce test using mpirun
-mpirun --bind-to core --map-by slot -np 2 opt/bin/ucc_perftest -c $COLLECTIVE -b $MSG_SIZE -e $MSG_SIZE -n $NUM_ITERATIONS -w $WARMUP_ITERATIONS
+# Test allreduce algorithm IDs from 0 to 4
+for ALGO_ID in {0..4}
+do
+    echo "=========================================="
+    echo "Testing OMPI_MCA_coll_tuned_allreduce_algorithm=$ALGO_ID"
+    echo "=========================================="
+    export OMPI_MCA_coll_tuned_allreduce_algorithm=$ALGO_ID
+    mpirun --bind-to core --map-by slot -np 2 opt/bin/ucc_perftest -c $COLLECTIVE -b $MSG_SIZE -e $MSG_SIZE -n $NUM_ITERATIONS -w $WARMUP_ITERATIONS
+done
