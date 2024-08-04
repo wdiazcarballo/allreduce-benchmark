@@ -22,4 +22,4 @@ NODELIST=($(scontrol show hostnames $SLURM_JOB_NODELIST))
 NODE_COUNT=${#NODELIST[@]}
 
 # Run the UCC All-Reduce test
-srun --nodes=$NODE_COUNT --ntasks=$NODE_COUNT opt/bin/ucc_perftest -c $COLLECTIVE -b $MIN_COUNT -e $MAX_COUNT -n $NUM_ITERATIONS -w $WARMUP_ITERATIONS
+mpirun --bind-to core --map-by slot -np $NODE_COUNT opt/bin/ucc_perftest -c $COLLECTIVE -b $MIN_COUNT -e $MAX_COUNT -n $NUM_ITERATIONS -w $WARMUP_ITERATIONS
