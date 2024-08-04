@@ -8,7 +8,7 @@
 #SBATCH --chdir=/global/home/users/rdmaworkshop08/wdc
 
 # Load necessary modules
-module load hpcx
+module load gcc hpcx
 
 # Use our version of ucc
 export LD_LIBRARY_PATH=/global/home/users/rdmaworkshop08/wdc/opt/lib/ucc:$LD_LIBRARY_PATH
