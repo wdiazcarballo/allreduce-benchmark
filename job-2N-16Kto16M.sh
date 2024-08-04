@@ -13,7 +13,8 @@ module load hpcx
 # Use our version of ucc
 export LD_LIBRARY_PATH=/global/home/users/rdmaworkshop08/wdc/opt/lib/ucc:$LD_LIBRARY_PATH
 export OMPI_MCA_coll_tuned_use_dynamic_rules=1
-export OMPI_MCA_coll_tuned_allreduce_algorithm=2 //UCC_TL_UCP_ALLREDUCE_ALG_SLIDING_WINDOW
+# UCC_TL_UCP_ALLREDUCE_ALG_SLIDING_WINDOW
+export OMPI_MCA_coll_tuned_allreduce_algorithm=2 
 
 # Set the collective type and message size
 COLLECTIVE="allreduce"
