@@ -17,6 +17,6 @@ NUM_ITERATIONS=10
 WARMUP_ITERATIONS=2
 
 # Run the UCC All-Reduce test using mpirun
-or MSG_SIZE in $MSG_SIZES; do
+for MSG_SIZE in $MSG_SIZES; do
     mpirun --bind-to core --map-by slot -np 2 opt/bin/ucc_perftest -c $COLLECTIVE -b $MSG_SIZE -e $MSG_SIZE -n $NUM_ITERATIONS -w $WARMUP_ITERATIONS
 done
