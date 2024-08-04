@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=ucc_perftest
 #SBATCH --partition=helios
-#SBATCH --nodes=4          
+#SBATCH --nodes=4          # Change this to 8 or 16 as needed
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=00:05:00
 #SBATCH --output=ucc_perftest_%j.log
@@ -10,14 +10,16 @@
 # Load necessary modules
 module load hpcx
 
-# Set the message sizes
-MSG_SIZES="16K 64K 256K 1M 4M 16M"
+# Set the collective type and message sizes
+COLLECTIVE="allreduce"
+MIN_COUNT=16384     # 16K bytes
+MAX_COUNT=16777216  # 16M bytes
+NUM_ITERATIONS=1000
+WARMUP_ITERATIONS=100
 
 # Get the node list
 NODELIST=($(scontrol show hostnames $SLURM_JOB_NODELIST))
 NODE_COUNT=${#NODELIST[@]}
 
 # Run the UCC All-Reduce test
-for MSG_SIZE in $MSG_SIZES; do
-    srun --nodes=$NODE_COUNT --ntasks=$NODE_COUNT opt/bin/ucc_perftest -t allreduce -m $MSG_SIZE -c 0
-done
+srun --nodes=$NODE_COUNT --ntasks=$NODE_COUNT opt/bin/ucc_perftest -c $COLLECTIVE -b $MIN_COUNT -e $MAX_COUNT -n $NUM_ITERATIONS -w $WARMUP_ITERATIONS
