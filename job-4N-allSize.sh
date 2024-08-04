@@ -10,6 +10,10 @@
 # Load necessary modules
 module load hpcx
 
+# Use our version of ucc
+export LD_LIBRARY_PATH=/global/home/users/rdmaworkshop08/wdc/opt/lib/ucc:$LD_LIBRARY_PATH
+
+
 # Set the collective type and message size
 COLLECTIVE="allreduce"
 MSG_SIZES="16384 65536 262144 1048576 4194304 16777216"  # 16K bytes
