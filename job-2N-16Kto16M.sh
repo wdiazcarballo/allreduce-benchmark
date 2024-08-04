@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --job-name=ucc_perftest
+#SBATCH --job-name=allreduce-2N-16Kto16M
 #SBATCH --partition=helios
 #SBATCH --nodes=2          # Using 2 nodes
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=00:10:00    # Adjust time as necessary
-#SBATCH --output=ucc_perftest_%j.log
+#SBATCH --output=allreduce-2N-16Kto16M_%j.log
 #SBATCH --chdir=/global/home/users/rdmaworkshop08/wdc
 
 # Load necessary modules
